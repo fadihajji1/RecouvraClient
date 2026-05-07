@@ -1,0 +1,42 @@
+<div class="page-header">
+  <div>
+    <h1>Utilisateurs</h1>
+    <p class="subtitle">Gestion des comptes utilisateurs</p>
+  </div>
+</div>
+
+@if (loading) {
+  <div class="loading-spinner"></div>
+} @else if (users.length === 0) {
+  <div class="card empty-state">
+    <div class="empty-icon">🔑</div>
+    <h3>Aucun utilisateur</h3>
+  </div>
+} @else {
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Rôle</th>
+          <th>Date de création</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of users; track user._id) {
+          <tr>
+            <td><strong style="color:var(--text-primary)">{{ user.firstName }} {{ user.lastName }}</strong></td>
+            <td>{{ user.email }}</td>
+            <td><span class="badge" [class]="'badge-' + user.role">{{ user.role }}</span></td>
+            <td>{{ formatDate(user.createdAt) }}</td>
+            <td class="actions">
+              <button class="btn-icon" title="Supprimer" (click)="deleteUser(user)">🗑️</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

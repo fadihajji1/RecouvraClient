@@ -1,0 +1,56 @@
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">R+</div>
+    <span class="brand-text">Recouvra<span class="accent">+</span></span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <span class="nav-label">Main</span>
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-label">Management</span>
+      <a routerLink="/clients" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">👥</span>
+        <span>Clients</span>
+      </a>
+      <a routerLink="/invoices" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📄</span>
+        <span>Factures</span>
+      </a>
+      <a routerLink="/payments" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">💳</span>
+        <span>Paiements</span>
+      </a>
+      <a routerLink="/recovery-actions" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">⚡</span>
+        <span>Recouvrement</span>
+      </a>
+    </div>
+
+    @if (authService.isAdmin()) {
+      <div class="nav-section">
+        <span class="nav-label">Admin</span>
+        <a routerLink="/users" routerLinkActive="active" class="nav-item">
+          <span class="nav-icon">🔑</span>
+          <span>Utilisateurs</span>
+        </a>
+      </div>
+    }
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-info">
+      <div class="user-avatar">{{ roleInitial }}</div>
+      <div>
+        <div class="user-role">{{ authService.getRole() | uppercase }}</div>
+      </div>
+    </div>
+    <button class="logout-btn" (click)="authService.logout()">⏻</button>
+  </div>
+</aside>

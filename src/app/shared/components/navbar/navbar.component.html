@@ -1,0 +1,10 @@
+<header class="navbar">
+  <div class="navbar-left">
+    <h2 class="page-title">{{ getPageTitle() }}</h2>
+  </div>
+  <div class="navbar-right">
+    <span class="role-badge" [class]="'badge badge-' + authService.getRole()">
+      {{ authService.getRole() }}
+    </span>
+  </div>
+</header>

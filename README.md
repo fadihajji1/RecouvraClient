@@ -43,9 +43,6 @@ recouvraClient1/
 | **Users** | Admin-only list with delete |
 | **Design** | Dark theme, glassmorphism, indigo/violet gradients, Inter font |
 
-### Backend Changes
-
-- Added `cors()` middleware to [app.js](file:///c:/Users/CALLMEFAD/Desktop/re/RecouvraApi%20v1%20%20mongo%20compass/app.js) to allow frontend requests
 
 ## Verification
 
