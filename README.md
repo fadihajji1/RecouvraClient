@@ -1,59 +1,67 @@
-# RecouvraClient1
+# RecouvraClient — Angular Frontend Walkthrough
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.10.
+## What Was Built
 
-## Development server
+A complete Angular frontend application for the **Recouvra+** debt recovery management system, connected to the existing Express.js/MongoDB backend API.
 
-To start a local development server, run:
+### Project Structure
 
-```bash
-ng serve
+```
+recouvraClient1/
+├── src/
+│   ├── app/
+│   │   ├── core/
+│   │   │   ├── guards/         → auth, guest, admin guards
+│   │   │   ├── interceptors/   → JWT Bearer token interceptor
+│   │   │   ├── models/         → TypeScript interfaces (User, Client, Invoice, Payment, RecoveryAction)
+│   │   │   └── services/       → Auth, Client, Invoice, Payment, RecoveryAction, Statistics, User services
+│   │   ├── layout/             → LayoutComponent (sidebar + navbar + router-outlet)
+│   │   ├── pages/
+│   │   │   ├── login/          → Login page
+│   │   │   ├── register/       → Registration page
+│   │   │   ├── dashboard/      → Statistics dashboard
+│   │   │   ├── clients/        → CRUD with search & modal
+│   │   │   ├── invoices/       → CRUD with line items, pagination, status filter
+│   │   │   ├── payments/       → CRUD with method filter, pagination
+│   │   │   ├── recovery-actions/ → CRUD with type/status filters, pagination
+│   │   │   └── users/          → Admin-only user list
+│   │   └── shared/components/  → Sidebar, Navbar
+│   ├── environments/           → Dev & prod API URL configs
+│   └── styles.scss             → Global premium dark theme
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Key Features
 
-## Code scaffolding
+| Feature | Details |
+|---------|---------|
+| **Auth** | JWT login/register, auto-token via interceptor, role-based guards |
+| **Dashboard** | Stats cards, status breakdown, recent payments, upcoming actions |
+| **Clients** | Full CRUD, search filter, create/edit modal |
+| **Invoices** | CRUD with line items, pagination, status filter |
+| **Payments** | Create linked to invoices, method filter, pagination |
+| **Recovery Actions** | CRUD with type/status filters, pagination |
+| **Users** | Admin-only list with delete |
+| **Design** | Dark theme, glassmorphism, indigo/violet gradients, Inter font |
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Backend Changes
 
-```bash
-ng generate component component-name
-```
+- Added `cors()` middleware to [app.js](file:///c:/Users/CALLMEFAD/Desktop/re/RecouvraApi%20v1%20%20mongo%20compass/app.js) to allow frontend requests
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Verification
 
-```bash
-ng generate --help
-```
+- **`ng build`**: ✅ Compiled successfully (exit code 0)
+- **Dev server**: Running at `http://localhost:4200`
+- **Browser test**: Not available (Chrome not installed in environment)
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## How to Run
 
 ```bash
-ng test
+# Terminal 1 — Start backend (requires MongoDB running)
+cd "RecouvraApi v1  mongo compass"
+npm start
+
+# Terminal 2 — Start frontend
+cd recouvraClient1
+npx ng serve
+# Open http://localhost:4200
 ```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
