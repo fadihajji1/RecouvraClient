@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../core/services/user.service';
 import { User } from '../../core/models/user.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -9,20 +10,41 @@ import { User } from '../../core/models/user.model';
   imports: [CommonModule],
   templateUrl: './users.component.html'
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   users: User[] = [];
   loading = true;
+
+  private loadSub?: Subscription;
+  private loadingTimeout?: ReturnType<typeof setTimeout>;
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.userService.getAll().subscribe({
-      next: (res: any) => {
-        this.users = res.users || res;
+    // Safety: force loading=false after 12s no matter what
+    this.loadingTimeout = setTimeout(() => {
+      if (this.loading) {
+        console.warn('[Users] Safety timeout reached — forcing loading=false');
         this.loading = false;
+      }
+    }, 12000);
+
+    this.loadSub = this.userService.getAll().subscribe({
+      next: (res: any) => {
+        this.users = res?.users || res || [];
+        this.loading = false;
+        if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
       },
-      error: () => { this.loading = false; }
+      error: (err) => {
+        console.error('[Users] Load error:', err?.message || err);
+        this.loading = false;
+        if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
+      }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.loadSub?.unsubscribe();
+    if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
   }
 
   deleteUser(user: User): void {

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InvoiceService } from '../../core/services/invoice.service';
 import { ClientService } from '../../core/services/client.service';
 import { Invoice, InvoiceRequest } from '../../core/models/invoice.model';
 import { Client } from '../../core/models/client.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-invoices',
@@ -13,7 +14,7 @@ import { Client } from '../../core/models/client.model';
   templateUrl: './invoices.component.html',
   styleUrls: ['./invoices.component.scss']
 })
-export class InvoicesComponent implements OnInit {
+export class InvoicesComponent implements OnInit, OnDestroy {
   invoices: Invoice[] = [];
   clients: Client[] = [];
   loading = true;
@@ -25,14 +26,27 @@ export class InvoicesComponent implements OnInit {
   saving = false;
   form: any = this.getEmptyForm();
 
+  private loadSub?: Subscription;
+  private saveSub?: Subscription;
+  private loadingTimeout?: ReturnType<typeof setTimeout>;
+
   constructor(
     private invoiceService: InvoiceService,
     private clientService: ClientService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadInvoices();
-    this.clientService.getAll().subscribe(res => this.clients = res.clients);
+    this.clientService.getAll().subscribe({
+      next: (res) => this.clients = res?.clients ?? [],
+      error: () => { }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.loadSub?.unsubscribe();
+    this.saveSub?.unsubscribe();
+    if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
   }
 
   getEmptyForm(): any {
@@ -47,16 +61,32 @@ export class InvoicesComponent implements OnInit {
   }
 
   loadInvoices(): void {
+    this.loading = true;
+    this.loadSub?.unsubscribe();
+
+    if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
+    this.loadingTimeout = setTimeout(() => {
+      if (this.loading) {
+        console.warn('[Invoices] Safety timeout reached — forcing loading=false');
+        this.loading = false;
+      }
+    }, 12000);
+
     const params: any = { page: this.currentPage, limit: 10 };
     if (this.statusFilter) params.status = this.statusFilter;
 
-    this.invoiceService.getAll(params).subscribe({
+    this.loadSub = this.invoiceService.getAll(params).subscribe({
       next: (res) => {
-        this.invoices = res.invoices;
-        this.totalPages = res.pages;
+        this.invoices = res?.invoices ?? [];
+        this.totalPages = res?.pages ?? 1;
         this.loading = false;
+        if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
       },
-      error: () => { this.loading = false; }
+      error: (err) => {
+        console.error('[Invoices] Load error:', err?.message || err);
+        this.loading = false;
+        if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
+      }
     });
   }
 
@@ -97,6 +127,7 @@ export class InvoicesComponent implements OnInit {
 
   saveInvoice(): void {
     this.saving = true;
+    this.saveSub?.unsubscribe();
     const data: InvoiceRequest = {
       invoiceNumber: this.form.invoiceNumber,
       client: this.form.client,
@@ -110,7 +141,7 @@ export class InvoicesComponent implements OnInit {
       ? this.invoiceService.update(this.editingInvoice._id, data)
       : this.invoiceService.create(data);
 
-    obs.subscribe({
+    this.saveSub = obs.subscribe({
       next: () => {
         this.saving = false;
         this.closeModal();

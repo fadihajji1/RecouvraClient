@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PaymentService } from '../../core/services/payment.service';
 import { InvoiceService } from '../../core/services/invoice.service';
 import { Payment, PaymentRequest } from '../../core/models/payment.model';
 import { Invoice } from '../../core/models/invoice.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-payments',
@@ -12,7 +13,7 @@ import { Invoice } from '../../core/models/invoice.model';
   imports: [CommonModule, FormsModule],
   templateUrl: './payments.component.html'
 })
-export class PaymentsComponent implements OnInit {
+export class PaymentsComponent implements OnInit, OnDestroy {
   payments: Payment[] = [];
   invoices: Invoice[] = [];
   loading = true;
@@ -23,24 +24,53 @@ export class PaymentsComponent implements OnInit {
   saving = false;
   form: PaymentRequest = { invoice: '', amount: 0, paymentMethod: 'bank_transfer', reference: '', notes: '' };
 
-  constructor(private paymentService: PaymentService, private invoiceService: InvoiceService) {}
+  private loadSub?: Subscription;
+  private saveSub?: Subscription;
+  private loadingTimeout?: ReturnType<typeof setTimeout>;
+
+  constructor(private paymentService: PaymentService, private invoiceService: InvoiceService) { }
 
   ngOnInit(): void {
     this.loadPayments();
-    this.invoiceService.getAll({ limit: 100 }).subscribe(res => this.invoices = res.invoices);
+    this.invoiceService.getAll({ limit: 100 }).subscribe({
+      next: (res) => this.invoices = res?.invoices ?? [],
+      error: () => { }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.loadSub?.unsubscribe();
+    this.saveSub?.unsubscribe();
+    if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
   }
 
   loadPayments(): void {
+    this.loading = true;
+    this.loadSub?.unsubscribe();
+
+    if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
+    this.loadingTimeout = setTimeout(() => {
+      if (this.loading) {
+        console.warn('[Payments] Safety timeout reached — forcing loading=false');
+        this.loading = false;
+      }
+    }, 12000);
+
     const params: any = { page: this.currentPage, limit: 10 };
     if (this.methodFilter) params.paymentMethod = this.methodFilter;
 
-    this.paymentService.getAll(params).subscribe({
+    this.loadSub = this.paymentService.getAll(params).subscribe({
       next: (res) => {
-        this.payments = res.payments;
-        this.totalPages = res.pages;
+        this.payments = res?.payments ?? [];
+        this.totalPages = res?.pages ?? 1;
         this.loading = false;
+        if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
       },
-      error: () => { this.loading = false; }
+      error: (err) => {
+        console.error('[Payments] Load error:', err?.message || err);
+        this.loading = false;
+        if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
+      }
     });
   }
 
@@ -58,7 +88,8 @@ export class PaymentsComponent implements OnInit {
 
   savePayment(): void {
     this.saving = true;
-    this.paymentService.create(this.form).subscribe({
+    this.saveSub?.unsubscribe();
+    this.saveSub = this.paymentService.create(this.form).subscribe({
       next: () => {
         this.saving = false;
         this.closeModal();

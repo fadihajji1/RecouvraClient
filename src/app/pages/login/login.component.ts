@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -10,13 +11,21 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   email = '';
   password = '';
   error = '';
   loading = false;
 
+  private loginSub?: Subscription;
+  private loadingTimeout?: ReturnType<typeof setTimeout>;
+
   constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnDestroy(): void {
+    this.loginSub?.unsubscribe();
+    if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
+  }
 
   onSubmit(): void {
     if (!this.email || !this.password) {
@@ -26,13 +35,27 @@ export class LoginComponent {
 
     this.loading = true;
     this.error = '';
+    this.loginSub?.unsubscribe();
 
-    this.authService.login({ email: this.email, password: this.password }).subscribe({
+    // Safety: force loading=false after 12s
+    if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
+    this.loadingTimeout = setTimeout(() => {
+      if (this.loading) {
+        console.warn('[Login] Safety timeout reached — forcing loading=false');
+        this.loading = false;
+        this.error = 'La connexion a pris trop de temps. Réessayez.';
+      }
+    }, 12000);
+
+    this.loginSub = this.authService.login({ email: this.email, password: this.password }).subscribe({
       next: () => {
+        this.loading = false;
+        if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         this.loading = false;
+        if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
         this.error = err.error?.message || 'Erreur de connexion';
       }
     });
