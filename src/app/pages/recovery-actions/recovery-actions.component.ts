@@ -57,7 +57,7 @@ export class RecoveryActionsComponent implements OnInit {
     this.editingAction = action || null;
     if (action) {
       this.form = {
-        invoice: action.invoice._id,
+        invoice: action.invoice?._id || '',
         actionType: action.actionType,
         status: action.status,
         actionDate: action.actionDate?.split('T')[0],

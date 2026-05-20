@@ -1,6 +1,6 @@
 export interface RecoveryAction {
   _id: string;
-  invoice: {
+  invoice?: {
     _id: string;
     invoiceNumber: string;
     amount?: number;
@@ -11,7 +11,7 @@ export interface RecoveryAction {
   status: 'planned' | 'completed' | 'cancelled';
   notes?: string;
   nextActionDate?: string;
-  performedBy: {
+  performedBy?: {
     _id: string;
     name?: string;
     firstName?: string;

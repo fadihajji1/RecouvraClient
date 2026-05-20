@@ -70,7 +70,7 @@ export class InvoicesComponent implements OnInit {
     if (invoice) {
       this.form = {
         invoiceNumber: invoice.invoiceNumber,
-        client: invoice.client._id,
+        client: invoice.client?._id || '',
         dueDate: invoice.dueDate.split('T')[0],
         taxRate: invoice.taxRate,
         status: invoice.status,

@@ -8,14 +8,14 @@ export interface InvoiceItem {
 export interface Invoice {
   _id: string;
   invoiceNumber: string;
-  client: {
+  client?: {
     _id: string;
     firstName: string;
     lastName: string;
     email?: string;
     company?: string;
   };
-  createdBy: {
+  createdBy?: {
     _id: string;
     firstName: string;
     lastName: string;

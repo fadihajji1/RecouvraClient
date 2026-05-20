@@ -25,6 +25,7 @@ L'application communique avec le backend **RecouvraApi** (Express.js / MongoDB) 
 ## ✨ Fonctionnalités
 
 ### Authentification & Sécurité
+
 - Connexion / Inscription avec validation
 - Gestion automatique du token JWT (injection via interceptor HTTP)
 - Contrôle d'accès par rôle : **Agent**, **Manager**, **Admin**
@@ -32,40 +33,47 @@ L'application communique avec le backend **RecouvraApi** (Express.js / MongoDB) 
 - Déconnexion avec nettoyage de session
 
 ### Tableau de Bord
+
 - Cartes statistiques : nombre de clients, factures, montants, retards
 - Répartition des factures par statut (Brouillon, Envoyée, Payée, Annulée)
 - Liste des paiements récents
 - Actions de recouvrement à venir
 
 ### Gestion des Clients
+
 - Liste complète avec recherche instantanée
 - Création et modification via modal
 - Informations : nom, email, téléphone, entreprise, adresse
 - Suppression avec confirmation
 
 ### Gestion des Factures
+
 - Liste avec filtre par statut et pagination
 - Création avec articles dynamiques (ajout/suppression de lignes)
 - Sélection du client, date d'échéance, taux de taxe
 - Modification du statut (Brouillon → Envoyée → Payée / Annulée)
 
 ### Gestion des Paiements
+
 - Enregistrement de paiements liés aux factures
 - Filtre par méthode de paiement (Virement, Chèque, Espèces, Carte)
 - Suivi avec référence et notes
 - Pagination
 
 ### Actions de Recouvrement
+
 - Planification d'actions : Email, Appel, Réunion, Rappel, Mise en demeure
 - Suivi par statut : Planifiée, Terminée, Annulée
 - Date de prochaine action et résultat
 - Filtre et pagination
 
 ### Administration (Admin uniquement)
+
 - Liste des utilisateurs avec rôles
 - Suppression de comptes
 
 ### Design & UX
+
 - Thème sombre premium avec effets glassmorphism
 - Dégradés indigo/violet, typographie Inter
 - Interface responsive (desktop / tablette)
@@ -104,14 +112,16 @@ src/
 
 ## 🛠️ Technologies
 
-| Technologie | Version | Rôle |
-|-------------|---------|------|
-| Angular | 19 | Framework frontend |
-| TypeScript | 5.x | Langage principal |
-| SCSS | — | Styles et thème |
-| RxJS | 7.x | Gestion asynchrone |
-| Angular Router | 19 | Navigation et lazy loading |
-| HttpClient | 19 | Communication API REST |
+
+| Technologie    | Version | Rôle                       |
+| -------------- | ------- | -------------------------- |
+| Angular        | 19      | Framework frontend         |
+| TypeScript     | 5.x     | Langage principal          |
+| SCSS           | —       | Styles et thème            |
+| RxJS           | 7.x     | Gestion asynchrone         |
+| Angular Router | 19      | Navigation et lazy loading |
+| HttpClient     | 19      | Communication API REST     |
+
 
 ---
 
@@ -163,23 +173,26 @@ npm start
 
 ```bash
 cd recouvraClient1
-ng start
+npm start 
+# OR ng serve 
 # → Application disponible sur http://localhost:4200
 ```
 
 ### 6. Accéder à l'application
 
-Ouvrez votre navigateur sur **http://localhost:4200** et connectez-vous avec un compte existant ou créez-en un via la page d'inscription.
+Ouvrez votre navigateur sur **[http://localhost:4200](http://localhost:4200)** et connectez-vous avec un compte existant ou créez-en un via la page d'inscription.
 
 ---
 
 ## 👥 Rôles Utilisateurs
 
-| Rôle | Accès |
-|------|-------|
-| **Agent** | Dashboard, Clients, Factures, Paiements, Actions de recouvrement |
-| **Manager** | Même accès qu'Agent |
-| **Admin** | Accès complet + Gestion des utilisateurs |
+
+| Rôle        | Accès                                                            |
+| ----------- | ---------------------------------------------------------------- |
+| **Agent**   | Dashboard, Clients, Factures, Paiements, Actions de recouvrement |
+| **Manager** | Même accès qu'Agent                                              |
+| **Admin**   | Accès complet + Gestion des utilisateurs                         |
+
 
 ---
 
@@ -187,15 +200,17 @@ Ouvrez votre navigateur sur **http://localhost:4200** et connectez-vous avec un 
 
 L'application consomme les endpoints suivants du backend RecouvraApi :
 
-| Module | Endpoint | Méthodes |
-|--------|----------|----------|
-| Auth | `/api/auth/login`, `/api/auth/register` | POST |
-| Clients | `/api/clients` | GET, POST, PUT, DELETE |
-| Factures | `/api/invoices` | GET, POST, PUT, DELETE |
-| Paiements | `/api/payments` | GET, POST, DELETE |
-| Recouvrement | `/api/recovery-actions` | GET, POST, PUT, DELETE |
-| Statistiques | `/api/statistics` | GET |
-| Utilisateurs | `/api/users` | GET, DELETE |
+
+| Module       | Endpoint                                | Méthodes               |
+| ------------ | --------------------------------------- | ---------------------- |
+| Auth         | `/api/auth/login`, `/api/auth/register` | POST                   |
+| Clients      | `/api/clients`                          | GET, POST, PUT, DELETE |
+| Factures     | `/api/invoices`                         | GET, POST, PUT, DELETE |
+| Paiements    | `/api/payments`                         | GET, POST, DELETE      |
+| Recouvrement | `/api/recovery-actions`                 | GET, POST, PUT, DELETE |
+| Statistiques | `/api/statistics`                       | GET                    |
+| Utilisateurs | `/api/users`                            | GET, DELETE            |
+
 
 > Le backend doit avoir **CORS activé** (`app.use(cors())` dans `app.js`) pour autoriser les requêtes depuis `localhost:4200`.
 

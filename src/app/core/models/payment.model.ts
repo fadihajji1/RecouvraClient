@@ -1,6 +1,6 @@
 export interface Payment {
   _id: string;
-  invoice: {
+  invoice?: {
     _id: string;
     invoiceNumber: string;
     totalAmount: number;
@@ -11,7 +11,7 @@ export interface Payment {
   paymentMethod: 'bank_transfer' | 'check' | 'cash' | 'credit_card' | 'other';
   reference?: string;
   notes?: string;
-  createdBy: {
+  createdBy?: {
     _id: string;
     firstName: string;
     lastName: string;
