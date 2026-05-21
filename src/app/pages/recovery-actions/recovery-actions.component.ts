@@ -5,6 +5,7 @@ import { RecoveryActionService } from '../../core/services/recovery-action.servi
 import { InvoiceService } from '../../core/services/invoice.service';
 import { RecoveryAction, RecoveryActionRequest } from '../../core/models/recovery-action.model';
 import { Invoice } from '../../core/models/invoice.model';
+import { ConfirmDialogService } from '../../core/services/confirm-dialog.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -31,7 +32,8 @@ export class RecoveryActionsComponent implements OnInit, OnDestroy {
 
   constructor(
     private recoveryActionService: RecoveryActionService,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private confirmDialog: ConfirmDialogService
   ) { }
 
   ngOnInit(): void {
@@ -123,8 +125,15 @@ export class RecoveryActionsComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteAction(a: RecoveryAction): void {
-    if (confirm('Supprimer cette action ?')) {
+  async deleteAction(a: RecoveryAction): Promise<void> {
+    const confirmed = await this.confirmDialog.confirm({
+      title: "Supprimer l'action",
+      message: 'Supprimer cette action ?',
+      confirmText: 'Supprimer',
+      tone: 'danger'
+    });
+
+    if (confirmed) {
       this.recoveryActionService.delete(a._id).subscribe(() => this.loadActions());
     }
   }

@@ -57,4 +57,8 @@ export class AuthService {
   isManager(): boolean {
     return this.getRole() === 'manager';
   }
+
+  canAccessFinancialSections(): boolean {
+    return this.isAdmin() || this.isManager();
+  }
 }

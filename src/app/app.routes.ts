@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
-import { authGuard, guestGuard, adminGuard } from './core/guards/auth.guard';
+import { adminGuard } from './core/guards/admin.guard';
+import { authGuard } from './core/guards/auth.guard';
+import { financialGuard } from './core/guards/financial.guard';
+import { guestGuard } from './core/guards/guest.guard';
 import { LayoutComponent } from './layout/layout.component';
 
 export const routes: Routes = [
@@ -20,8 +23,8 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent) },
       { path: 'clients', loadComponent: () => import('./pages/clients/clients.component').then(m => m.ClientsComponent) },
-      { path: 'invoices', loadComponent: () => import('./pages/invoices/invoices.component').then(m => m.InvoicesComponent) },
-      { path: 'payments', loadComponent: () => import('./pages/payments/payments.component').then(m => m.PaymentsComponent) },
+      { path: 'invoices', canActivate: [financialGuard], loadComponent: () => import('./pages/invoices/invoices.component').then(m => m.InvoicesComponent) },
+      { path: 'payments', canActivate: [financialGuard], loadComponent: () => import('./pages/payments/payments.component').then(m => m.PaymentsComponent) },
       { path: 'recovery-actions', loadComponent: () => import('./pages/recovery-actions/recovery-actions.component').then(m => m.RecoveryActionsComponent) },
       { path: 'users', canActivate: [adminGuard], loadComponent: () => import('./pages/users/users.component').then(m => m.UsersComponent) },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }

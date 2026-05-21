@@ -37,9 +37,7 @@
     <div class="status-grid">
       @for (statusKey of getStatusKeys(); track statusKey) {
         <div class="status-item">
-          <div class="status-bar" [style.width.%]="getStatusPercentage(statusKey)">
-            <span class="badge" [class]="'badge-' + statusKey.toLowerCase()">{{ statusKey }}</span>
-          </div>
+          <span class="badge" [class]="'badge-' + statusKey.toLowerCase()">{{ statusKey }}</span>
           <div class="status-info">
             <span>{{ stats.invoices.byStatus[statusKey].count }} factures</span>
             <span class="amount">{{ formatCurrency(stats.invoices.byStatus[statusKey].amount) }}</span>

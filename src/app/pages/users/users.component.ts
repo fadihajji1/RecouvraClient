@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../core/services/user.service';
 import { User } from '../../core/models/user.model';
+import { ConfirmDialogService } from '../../core/services/confirm-dialog.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -17,7 +18,10 @@ export class UsersComponent implements OnInit, OnDestroy {
   private loadSub?: Subscription;
   private loadingTimeout?: ReturnType<typeof setTimeout>;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private confirmDialog: ConfirmDialogService
+  ) {}
 
   ngOnInit(): void {
     // Safety: force loading=false after 12s no matter what
@@ -47,8 +51,15 @@ export class UsersComponent implements OnInit, OnDestroy {
     if (this.loadingTimeout) clearTimeout(this.loadingTimeout);
   }
 
-  deleteUser(user: User): void {
-    if (confirm(`Supprimer ${user.firstName} ${user.lastName} ?`)) {
+  async deleteUser(user: User): Promise<void> {
+    const confirmed = await this.confirmDialog.confirm({
+      title: "Supprimer l'utilisateur",
+      message: `Supprimer ${user.firstName} ${user.lastName} ?`,
+      confirmText: 'Supprimer',
+      tone: 'danger'
+    });
+
+    if (confirmed) {
       this.userService.delete(user._id).subscribe(() => {
         this.users = this.users.filter(u => u._id !== user._id);
       });

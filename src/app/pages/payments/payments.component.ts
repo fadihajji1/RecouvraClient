@@ -5,6 +5,8 @@ import { PaymentService } from '../../core/services/payment.service';
 import { InvoiceService } from '../../core/services/invoice.service';
 import { Payment, PaymentRequest } from '../../core/models/payment.model';
 import { Invoice } from '../../core/models/invoice.model';
+import { ConfirmDialogService } from '../../core/services/confirm-dialog.service';
+import { AuthService } from '../../core/services/auth.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -28,7 +30,12 @@ export class PaymentsComponent implements OnInit, OnDestroy {
   private saveSub?: Subscription;
   private loadingTimeout?: ReturnType<typeof setTimeout>;
 
-  constructor(private paymentService: PaymentService, private invoiceService: InvoiceService) { }
+  constructor(
+    private paymentService: PaymentService,
+    private invoiceService: InvoiceService,
+    private confirmDialog: ConfirmDialogService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.loadPayments();
@@ -99,8 +106,25 @@ export class PaymentsComponent implements OnInit, OnDestroy {
     });
   }
 
-  deletePayment(p: Payment): void {
-    if (confirm('Supprimer ce paiement ?')) {
+  async deletePayment(p: Payment): Promise<void> {
+    if (!this.authService.isAdmin()) {
+      await this.confirmDialog.confirm({
+        title: 'Action non autorisée',
+        message: 'your not allowed, only admin can perform this action',
+        confirmText: 'OK',
+        showCancel: false
+      });
+      return;
+    }
+
+    const confirmed = await this.confirmDialog.confirm({
+      title: 'Supprimer le paiement',
+      message: 'Supprimer ce paiement ?',
+      confirmText: 'Supprimer',
+      tone: 'danger'
+    });
+
+    if (confirmed) {
       this.paymentService.delete(p._id).subscribe(() => this.loadPayments());
     }
   }
