@@ -170,7 +170,7 @@ src/
 
 ```bash
 git clone <repo-url>
-cd recouvraClient1
+cd recouvraClient
 ```
 
 ### 2. Install dependencies
@@ -195,7 +195,7 @@ export const environment = {
 ### 4. Start the backend
 
 ```bash
-cd "../RecouvraApi v1  mongo compass"
+cd "../RecouvraApi"
 npm install
 npm start
 # → API available at http://localhost:3001
@@ -204,7 +204,7 @@ npm start
 ### 5. Launch the frontend
 
 ```bash
-cd recouvraClient1
+cd recouvraClient
 npm start 
 # OR ng serve 
 # → Application available at http://localhost:4200
