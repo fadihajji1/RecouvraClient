@@ -3,7 +3,16 @@
     <h2 class="page-title">{{ getPageTitle() }}</h2>
   </div>
   <div class="navbar-right">
-    <span class="role-badge" [class]="'badge badge-' + authService.getRole()">
+    <button
+      type="button"
+      class="theme-toggle-btn"
+      (click)="toggleTheme()"
+      [attr.aria-label]="getThemeButtonLabel()"
+      [attr.title]="getThemeButtonLabel()"
+    >
+      <span class="theme-toggle-icon">{{ getThemeButtonIcon() }}</span>
+    </button>
+    <span class="role-badge" [class]="'badge badge-' + (authService.getRole() || 'admin')">
       {{ authService.getRole() }}
     </span>
   </div>

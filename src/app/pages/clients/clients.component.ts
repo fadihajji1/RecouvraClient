@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ClientService } from '../../core/services/client.service';
 import { Client, ClientRequest } from '../../core/models/client.model';
+import { ConfirmDialogService } from '../../core/services/confirm-dialog.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -25,7 +26,10 @@ export class ClientsComponent implements OnInit, OnDestroy {
   private saveSub?: Subscription;
   private loadingTimeout?: ReturnType<typeof setTimeout>;
 
-  constructor(private clientService: ClientService) { }
+  constructor(
+    private clientService: ClientService,
+    private confirmDialog: ConfirmDialogService
+  ) { }
 
   ngOnInit(): void {
     this.loadClients();
@@ -103,8 +107,15 @@ export class ClientsComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteClient(client: Client): void {
-    if (confirm(`Supprimer ${client.firstName} ${client.lastName} ?`)) {
+  async deleteClient(client: Client): Promise<void> {
+    const confirmed = await this.confirmDialog.confirm({
+      title: 'Supprimer le client',
+      message: `Supprimer ${client.firstName} ${client.lastName} ?`,
+      confirmText: 'Supprimer',
+      tone: 'danger'
+    });
+
+    if (confirmed) {
       this.clientService.delete(client._id).subscribe(() => this.loadClients());
     }
   }

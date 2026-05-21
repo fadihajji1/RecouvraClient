@@ -48,7 +48,7 @@
             </td>
             <td>{{ formatDate(inv.dueDate) }}</td>
             <td class="actions">
-              <button class="btn-icon" title="Modifier" (click)="openModal(inv)">✏️</button>
+              <button class="btn-icon " title="Modifier" (click)="openModal(inv)" >✏️</button>
               <button class="btn-icon" title="Supprimer" (click)="deleteInvoice(inv)">🗑️</button>
             </td>
           </tr>
@@ -117,16 +117,25 @@
 
         <!-- Items -->
         <div class="items-section">
-          <div class="section-header" style="padding:0 0 12px 0;border:none">
-            <label style="font-weight:600;color:var(--text-primary)">Articles</label>
+          <div class="items-header">
+            <label>Articles</label>
             <button type="button" class="btn-secondary btn-sm" (click)="addItem()">+ Article</button>
           </div>
           @for (item of form.items; track $index) {
             <div class="item-row">
-              <input class="form-control" placeholder="Description" [(ngModel)]="item.description" [name]="'desc'+$index">
-              <input class="form-control" type="number" placeholder="Qté" [(ngModel)]="item.quantity" [name]="'qty'+$index" style="max-width:80px">
-              <input class="form-control" type="number" placeholder="Prix" [(ngModel)]="item.price" [name]="'price'+$index" style="max-width:100px">
-              <button type="button" class="btn-icon" (click)="removeItem($index)">✕</button>
+              <div class="item-field item-description">
+                <label [for]="'desc' + $index">Description</label>
+                <input class="form-control" [id]="'desc' + $index" placeholder="Description" [(ngModel)]="item.description" [name]="'desc'+$index">
+              </div>
+              <div class="item-field">
+                <label [for]="'qty' + $index">Quantité</label>
+                <input class="form-control" [id]="'qty' + $index" type="number" [(ngModel)]="item.quantity" [name]="'qty'+$index">
+              </div>
+              <div class="item-field">
+                <label [for]="'price' + $index">Prix</label>
+                <input class="form-control" [id]="'price' + $index" type="number" [(ngModel)]="item.price" [name]="'price'+$index">
+              </div>
+              <button type="button" class="btn-icon remove-item-btn" (click)="removeItem($index)">✕</button>
             </div>
           }
         </div>

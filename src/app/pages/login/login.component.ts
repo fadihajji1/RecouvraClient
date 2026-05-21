@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { ThemeService } from '../../core/services/theme.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -20,7 +21,13 @@ export class LoginComponent implements OnDestroy {
   private loginSub?: Subscription;
   private loadingTimeout?: ReturnType<typeof setTimeout>;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private themeService: ThemeService
+  ) {
+    this.themeService.setTheme('light');
+  }
 
   ngOnDestroy(): void {
     this.loginSub?.unsubscribe();

@@ -59,10 +59,4 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getStatusKeys(): string[] {
     return this.stats?.invoices?.byStatus ? Object.keys(this.stats.invoices.byStatus) : [];
   }
-
-  getStatusPercentage(status: string): number {
-    const total = this.stats?.invoices?.total || 1;
-    const count = this.stats?.invoices?.byStatus?.[status]?.count || 0;
-    return Math.max((count / total) * 100, 15);
-  }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +10,11 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(
+    public authService: AuthService,
+    public themeService: ThemeService,
+    private router: Router
+  ) {}
 
   getPageTitle(): string {
     const url = this.router.url;
@@ -25,5 +30,17 @@ export class NavbarComponent {
       if (url.startsWith(path)) return title;
     }
     return 'Recouvra+';
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
+
+  getThemeButtonLabel(): string {
+    return this.themeService.getToggleLabel();
+  }
+
+  getThemeButtonIcon(): string {
+    return this.themeService.isLightMode() ? '🌙' : '☀️';
   }
 }

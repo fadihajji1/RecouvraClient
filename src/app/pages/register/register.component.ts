@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { ThemeService } from '../../core/services/theme.service';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,13 @@ export class RegisterComponent {
   success = '';
   loading = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private themeService: ThemeService
+  ) {
+    this.themeService.setTheme('light');
+  }
 
   onSubmit(): void {
     if (!this.form.firstName || !this.form.lastName || !this.form.email || !this.form.password) {

@@ -5,6 +5,7 @@ import { InvoiceService } from '../../core/services/invoice.service';
 import { ClientService } from '../../core/services/client.service';
 import { Invoice, InvoiceRequest } from '../../core/models/invoice.model';
 import { Client } from '../../core/models/client.model';
+import { ConfirmDialogService } from '../../core/services/confirm-dialog.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -32,7 +33,8 @@ export class InvoicesComponent implements OnInit, OnDestroy {
 
   constructor(
     private invoiceService: InvoiceService,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private confirmDialog: ConfirmDialogService
   ) { }
 
   ngOnInit(): void {
@@ -151,8 +153,15 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteInvoice(inv: Invoice): void {
-    if (confirm(`Supprimer la facture ${inv.invoiceNumber} ?`)) {
+  async deleteInvoice(inv: Invoice): Promise<void> {
+    const confirmed = await this.confirmDialog.confirm({
+      title: 'Supprimer la facture',
+      message: `Supprimer la facture ${inv.invoiceNumber} ?`,
+      confirmText: 'Supprimer',
+      tone: 'danger'
+    });
+
+    if (confirmed) {
       this.invoiceService.delete(inv._id).subscribe(() => this.loadInvoices());
     }
   }
