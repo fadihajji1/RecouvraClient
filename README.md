@@ -82,6 +82,38 @@ The application communicates with the **RecouvraApi** backend (Express.js / Mong
 
 ---
 
+## 📸 Screenshots
+
+### Dashboard
+Overview of all recovery management statistics and recent activities.
+
+<div style="text-align: center; ">
+  <img src="./docs/screenshots/dashboard.png" alt="Dashboard" style="border: 1px solid #ccc; border-radius: 18px; width: 90%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
+</div>
+
+### Client Management
+Complete client list with search, filter, and CRUD operations.
+
+<div style="text-align: center;">
+  <img src="./docs/screenshots/clients-management.png" alt="Client Management" style="border: 1px solid #ccc; border-radius: 18px; width: 90%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
+</div>
+
+### Invoice Management
+Invoice list with status filtering, pagination, and action buttons.
+
+<div style="text-align: center;">
+  <img src="./docs/screenshots/invoices-management.png" alt="Invoice Management" style="border: 1px solid #ccc; border-radius: 18px; width: 90%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
+</div>
+
+### New Invoice Modal
+Dynamic form for creating invoices with line items management.
+
+<div style="text-align: center;">
+  <img src="./docs/screenshots/new-invoice-modal.png" alt="New Invoice Modal" style="border: 1px solid #ccc; border-radius: 18px; width: 90%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
+</div>
+
+---
+
 ## 🏗️ Project Architecture
 
 ```
