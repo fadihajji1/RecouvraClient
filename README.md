@@ -1,111 +1,143 @@
 # Recouvra+ Client
 
-> Application Angular de gestion du recouvrement de créances — Frontend moderne connecté à l'API RecouvraApi.
+> Angular application for debt recovery management — Modern frontend connected to the RecouvraApi.
 
 ---
 
-## 📋 Présentation du Projet
+## 📋 Project Overview
 
-**Recouvra+** est une solution complète de gestion du recouvrement de créances destinée aux entreprises et cabinets de recouvrement. Cette application frontend, développée avec **Angular 19**, offre une interface utilisateur premium et intuitive permettant de centraliser la gestion des clients débiteurs, le suivi des factures impayées, l'enregistrement des paiements et la planification des actions de recouvrement.
+**Recouvra+** is a complete debt recovery management solution for businesses and collection firms. This frontend application, developed with **Angular 19**, offers a premium and intuitive user interface to centralize the management of debtor clients, track unpaid invoices, record payments, and plan recovery actions.
 
-L'application communique avec le backend **RecouvraApi** (Express.js / MongoDB) via une API RESTful sécurisée par JWT.
-
----
-
-## 🎯 Objectifs
-
-- **Centraliser** la gestion des créances dans une interface unique et ergonomique
-- **Automatiser** le suivi des factures impayées et des échéances
-- **Faciliter** la planification et le suivi des actions de recouvrement (appels, emails, mises en demeure)
-- **Sécuriser** l'accès aux données avec un système d'authentification JWT et un contrôle d'accès basé sur les rôles (Agent, Manager, Admin)
-- **Offrir** une vue d'ensemble en temps réel via un tableau de bord statistique
+The application communicates with the **RecouvraApi** backend (Express.js / MongoDB) via a JWT-secured RESTful API.
 
 ---
 
-## ✨ Fonctionnalités
+## 🎯 Objectives
 
-### Authentification & Sécurité
+- **Centralize** debt management in a single, ergonomic interface
+- **Automate** tracking of unpaid invoices and due dates
+- **Facilitate** planning and monitoring of recovery actions (calls, emails, demand letters)
+- **Secure** data access with JWT authentication system and role-based access control (Agent, Manager, Admin)
+- **Provide** real-time overview via statistical dashboard
 
-- Connexion / Inscription avec validation
-- Gestion automatique du token JWT (injection via interceptor HTTP)
-- Contrôle d'accès par rôle : **Agent**, **Manager**, **Admin**
-- Redirection automatique selon l'état d'authentification
-- Déconnexion avec nettoyage de session
+---
 
-### Tableau de Bord
+## ✨ Features
 
-- Cartes statistiques : nombre de clients, factures, montants, retards
-- Répartition des factures par statut (Brouillon, Envoyée, Payée, Annulée)
-- Liste des paiements récents
-- Actions de recouvrement à venir
+### Authentication & Security
 
-### Gestion des Clients
+- Login / Registration with validation
+- Automatic JWT token management (injection via HTTP interceptor)
+- Role-based access control: **Agent**, **Manager**, **Admin**
+- Automatic redirection based on authentication status
+- Logout with session cleanup
 
-- Liste complète avec recherche instantanée
-- Création et modification via modal
-- Informations : nom, email, téléphone, entreprise, adresse
-- Suppression avec confirmation
+### Dashboard
 
-### Gestion des Factures
+- Statistical cards: number of clients, invoices, amounts, overdue items
+- Invoice distribution by status (Draft, Sent, Paid, Cancelled)
+- Recent payments list
+- Upcoming recovery actions
 
-- Liste avec filtre par statut et pagination
-- Création avec articles dynamiques (ajout/suppression de lignes)
-- Sélection du client, date d'échéance, taux de taxe
-- Modification du statut (Brouillon → Envoyée → Payée / Annulée)
+### Client Management
 
-### Gestion des Paiements
+- Complete list with instant search
+- Creation and modification via modal
+- Information: name, email, phone, company, address
+- Deletion with confirmation
 
-- Enregistrement de paiements liés aux factures
-- Filtre par méthode de paiement (Virement, Chèque, Espèces, Carte)
-- Suivi avec référence et notes
+### Invoice Management
+
+- List with status filter and pagination
+- Creation with dynamic items (add/remove lines)
+- Client selection, due date, tax rate
+- Status modification (Draft → Sent → Paid / Cancelled)
+
+### Payment Management
+
+- Recording of payments linked to invoices
+- Filter by payment method (Transfer, Check, Cash, Card)
+- Tracking with reference and notes
 - Pagination
 
-### Actions de Recouvrement
+### Recovery Actions
 
-- Planification d'actions : Email, Appel, Réunion, Rappel, Mise en demeure
-- Suivi par statut : Planifiée, Terminée, Annulée
-- Date de prochaine action et résultat
-- Filtre et pagination
+- Action planning: Email, Call, Meeting, Reminder, Demand Letter
+- Tracking by status: Scheduled, Completed, Cancelled
+- Next action date and result
+- Filter and pagination
 
-### Administration (Admin uniquement)
+### Administration (Admin only)
 
-- Liste des utilisateurs avec rôles
-- Suppression de comptes
+- List of users with roles
+- Account deletion
 
 ### Design & UX
 
-- Thème sombre premium avec effets glassmorphism
-- Dégradés indigo/violet, typographie Inter
-- Interface responsive (desktop / tablette)
-- Animations et transitions fluides
-- Sidebar de navigation avec indicateur de rôle
+- Premium dark theme with glassmorphism effects
+- Indigo/violet gradients, Inter typography
+- Responsive interface (desktop / tablet)
+- Smooth animations and transitions
+- Navigation sidebar with role indicator
 
 ---
 
-## 🏗️ Architecture du Projet
+## 📸 Screenshots
+
+### Dashboard
+Overview of all recovery management statistics and recent activities.
+
+<div style="text-align: center; ">
+  <img src="./docs/screenshots/dashboard.png" alt="Dashboard" style="border: 1px solid #ccc; border-radius: 18px; width: 90%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
+</div>
+
+### Client Management
+Complete client list with search, filter, and CRUD operations.
+
+<div style="text-align: center;">
+  <img src="./docs/screenshots/clients-management.png" alt="Client Management" style="border: 1px solid #ccc; border-radius: 18px; width: 90%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
+</div>
+
+### Invoice Management
+Invoice list with status filtering, pagination, and action buttons.
+
+<div style="text-align: center;">
+  <img src="./docs/screenshots/invoices-management.png" alt="Invoice Management" style="border: 1px solid #ccc; border-radius: 18px; width: 90%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
+</div>
+
+### New Invoice Modal
+Dynamic form for creating invoices with line items management.
+
+<div style="text-align: center;">
+  <img src="./docs/screenshots/new-invoice-modal.png" alt="New Invoice Modal" style="border: 1px solid #ccc; border-radius: 18px; width: 90%; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
+</div>
+
+---
+
+## 🏗️ Project Architecture
 
 ```
 src/
 ├── app/
 │   ├── core/
 │   │   ├── guards/              # AuthGuard, GuestGuard, AdminGuard
-│   │   ├── interceptors/        # Intercepteur JWT (injection automatique du token)
-│   │   ├── models/              # Interfaces TypeScript (User, Client, Invoice, Payment, RecoveryAction)
-│   │   └── services/            # Services HTTP (Auth, Client, Invoice, Payment, RecoveryAction, Statistics, User)
-│   ├── layout/                  # Composant principal (sidebar + navbar + router-outlet)
+│   │   ├── interceptors/        # JWT Interceptor (automatic token injection)
+│   │   ├── models/              # TypeScript Interfaces (User, Client, Invoice, Payment, RecoveryAction)
+│   │   └── services/            # HTTP Services (Auth, Client, Invoice, Payment, RecoveryAction, Statistics, User)
+│   ├── layout/                  # Main component (sidebar + navbar + router-outlet)
 │   ├── pages/
-│   │   ├── login/               # Page de connexion
-│   │   ├── register/            # Page d'inscription
-│   │   ├── dashboard/           # Tableau de bord statistique
+│   │   ├── login/               # Login page
+│   │   ├── register/            # Registration page
+│   │   ├── dashboard/           # Statistical dashboard
 │   │   ├── clients/             # CRUD Clients
-│   │   ├── invoices/            # CRUD Factures (avec articles)
-│   │   ├── payments/            # CRUD Paiements
-│   │   ├── recovery-actions/    # CRUD Actions de recouvrement
-│   │   └── users/               # Gestion utilisateurs (admin)
+│   │   ├── invoices/            # CRUD Invoices (with items)
+│   │   ├── payments/            # CRUD Payments
+│   │   ├── recovery-actions/    # CRUD Recovery Actions
+│   │   └── users/               # User management (admin)
 │   └── shared/
 │       └── components/          # Sidebar, Navbar
-├── environments/                # Configuration API (dev / prod)
-└── styles.scss                  # Thème global et design system
+├── environments/                # API Configuration (dev / prod)
+└── styles.scss                  # Global theme and design system
 ```
 
 ---
@@ -113,43 +145,43 @@ src/
 ## 🛠️ Technologies
 
 
-| Technologie    | Version | Rôle                       |
+| Technology     | Version | Role                       |
 | -------------- | ------- | -------------------------- |
-| Angular        | 19      | Framework frontend         |
-| TypeScript     | 5.x     | Langage principal          |
-| SCSS           | —       | Styles et thème            |
-| RxJS           | 7.x     | Gestion asynchrone         |
-| Angular Router | 19      | Navigation et lazy loading |
-| HttpClient     | 19      | Communication API REST     |
+| Angular        | 19      | Frontend framework         |
+| TypeScript     | 5.x     | Primary language           |
+| SCSS           | —       | Styles and theme           |
+| RxJS           | 7.x     | Asynchronous management    |
+| Angular Router | 19      | Navigation and lazy loading|
+| HttpClient     | 19      | REST API communication     |
 
 
 ---
 
-## ⚡ Installation Rapide
+## ⚡ Quick Installation
 
-### Prérequis
+### Prerequisites
 
 - **Node.js** ≥ 18
 - **npm** ≥ 9
-- **MongoDB** en cours d'exécution (pour le backend)
-- **Backend RecouvraApi** configuré et démarré
+- **MongoDB** running (for the backend)
+- **RecouvraApi backend** configured and started
 
-### 1. Cloner le projet
+### 1. Clone the project
 
 ```bash
-git clone <url-du-repo>
+git clone <repo-url>
 cd recouvraClient1
 ```
 
-### 2. Installer les dépendances
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Configurer l'environnement
+### 3. Configure the environment
 
-Le fichier `src/environments/environment.ts` pointe par défaut vers :
+The file `src/environments/environment.ts` points by default to:
 
 ```typescript
 export const environment = {
@@ -158,64 +190,64 @@ export const environment = {
 };
 ```
 
-> Modifiez `apiUrl` si votre backend tourne sur un autre port.
+> Modify `apiUrl` if your backend is running on a different port.
 
-### 4. Démarrer le backend
+### 4. Start the backend
 
 ```bash
 cd "../RecouvraApi v1  mongo compass"
 npm install
 npm start
-# → API disponible sur http://localhost:3001
+# → API available at http://localhost:3001
 ```
 
-### 5. Lancer le frontend
+### 5. Launch the frontend
 
 ```bash
 cd recouvraClient1
 npm start 
 # OR ng serve 
-# → Application disponible sur http://localhost:4200
+# → Application available at http://localhost:4200
 ```
 
-### 6. Accéder à l'application
+### 6. Access the application
 
-Ouvrez votre navigateur sur **[http://localhost:4200](http://localhost:4200)** et connectez-vous avec un compte existant ou créez-en un via la page d'inscription.
+Open your browser at **[http://localhost:4200](http://localhost:4200)** and log in with an existing account or create one via the registration page.
 
 ---
 
-## 👥 Rôles Utilisateurs
+## 👥 User Roles
 
 
-| Rôle        | Accès                                                            |
+| Role        | Access                                                           |
 | ----------- | ---------------------------------------------------------------- |
-| **Agent**   | Dashboard, Clients, Factures, Paiements, Actions de recouvrement |
-| **Manager** | Même accès qu'Agent                                              |
-| **Admin**   | Accès complet + Gestion des utilisateurs                         |
+| **Agent**   | Dashboard, Clients, Invoices, Payments, Recovery Actions         |
+| **Manager** | Same access as Agent                                             |
+| **Admin**   | Full access + User management                                    |
 
 
 ---
 
-## 📡 API Backend
+## 📡 Backend API
 
-L'application consomme les endpoints suivants du backend RecouvraApi :
+The application consumes the following endpoints from the RecouvraApi backend:
 
 
-| Module       | Endpoint                                | Méthodes               |
-| ------------ | --------------------------------------- | ---------------------- |
-| Auth         | `/api/auth/login`, `/api/auth/register` | POST                   |
+| Module       | Endpoint                                | Methods            |
+| ------------ | --------------------------------------- | -------------------- |
+| Auth         | `/api/auth/login`, `/api/auth/register` | POST                 |
 | Clients      | `/api/clients`                          | GET, POST, PUT, DELETE |
-| Factures     | `/api/invoices`                         | GET, POST, PUT, DELETE |
-| Paiements    | `/api/payments`                         | GET, POST, DELETE      |
-| Recouvrement | `/api/recovery-actions`                 | GET, POST, PUT, DELETE |
-| Statistiques | `/api/statistics`                       | GET                    |
-| Utilisateurs | `/api/users`                            | GET, DELETE            |
+| Invoices     | `/api/invoices`                         | GET, POST, PUT, DELETE |
+| Payments     | `/api/payments`                         | GET, POST, DELETE    |
+| Recovery     | `/api/recovery-actions`                 | GET, POST, PUT, DELETE |
+| Statistics   | `/api/statistics`                       | GET                  |
+| Users        | `/api/users`                            | GET, DELETE          |
 
 
-> Le backend doit avoir **CORS activé** (`app.use(cors())` dans `app.js`) pour autoriser les requêtes depuis `localhost:4200`.
+> The backend must have **CORS enabled** (`app.use(cors())` in `app.js`) to authorize requests from `localhost:4200`.
 
 ---
 
-## 📄 Licence
+## 📄 License
 
-Projet académique — Tous droits réservés.
+Academic project — All rights reserved.
